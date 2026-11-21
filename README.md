@@ -1,8 +1,5 @@
 # Genoma Lab - Proyecto de EDA 2
 
-Proyecto del curso Estructuras de Datos y Algoritmos 2 (Universidad de Lima).
-Hecho por: Quispe Gomez, Diego Sebastian - 20244520
-
 El programa lee el archivo `HIV2_ALL_2021_env_DNA.2000.fasta`, que tiene 218 virus (VIH-2 y SIV), y con eso:
 
 - guarda los virus en una tabla hash para buscarlos por su id
@@ -48,7 +45,7 @@ Un id para probar: `MAC.US.x.239.M33262`
 
 ## Cómo abrir la interfaz
 
-Lo más fácil es abrir `Genoma-Lab-0.1.0-portable.exe` (está en el Drive) con doble clic. Ya trae el programa y el archivo FASTA. Si Windows dice "Windows protegió su PC", hay que darle a Más información y luego Ejecutar de todas formas.
+Lo más fácil es abrir `Genoma-Lab-0.1.0-portable.exe` con doble clic. Ya trae el programa y el archivo FASTA. Si Windows dice "Windows protegió su PC", hay que darle a Más información y luego Ejecutar de todas formas.
 
 Desde el código:
 1. Compilar primero el programa en C++ (ver arriba).
