@@ -1,0 +1,28 @@
+# Empaquetado para Windows:  npm run empaquetar
+appId: pe.ulima.eda2.genomalab
+productName: Genoma Lab
+directories:
+  output: dist
+
+# La app en sí: lo que compila electron-vite
+files:
+  - out/**
+  - package.json
+
+# Lo que la app lee del disco en tiempo de ejecución (queda en resources/)
+extraResources:
+  # El FASTA del proyecto (se lee de ../data, no se copia dentro de interfaz/)
+  - from: ../data/HIV2_ALL_2021_env_DNA.2000.fasta
+    to: data/HIV2_ALL_2021_env_DNA.2000.fasta
+  # El motor en C++ y sus DLL, si "npm run preparar-motor" los encontró
+  - from: motor
+    to: motor
+
+win:
+  target:
+    - target: portable
+      arch: x64
+  artifactName: Genoma-Lab-${version}.exe
+
+portable:
+  artifactName: Genoma-Lab-${version}-portable.exe

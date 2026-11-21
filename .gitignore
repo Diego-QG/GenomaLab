@@ -1,0 +1,17 @@
+# Node / interfaz
+node_modules/
+interfaz/dist/
+interfaz/out/
+interfaz/release/
+interfaz_respaldo/
+
+# CLion
+cmake-build-*/
+.idea/
+
+# Ejecutables
+*.exe
+
+# Configuración local de herramientas
+.claude/
+.vscode/

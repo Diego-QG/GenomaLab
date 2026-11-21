@@ -1,0 +1,8 @@
+Esta carpeta es para el motor que viaja dentro de la app empaquetada.
+
+"npm run empaquetar" copia aquí, automáticamente:
+  - ProyectoGenomico.exe  (desde ../cmake-build-debug/)
+  - las DLL de MinGW que necesita fuera de CLion
+
+No hace falta tocarla a mano. En desarrollo ("npm run dev") la interfaz usa
+directamente el .exe de ../cmake-build-debug/ (o el que se elija en Ajustes).

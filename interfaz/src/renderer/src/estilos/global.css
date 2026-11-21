@@ -1,0 +1,250 @@
+@import 'tailwindcss';
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Genoma Lab — sistema visual
+
+   Idea: una mesa de luz de laboratorio a oscuras. La interfaz (marcos, botones,
+   texto) no tiene color: es tinta y hueso. El color se reserva para los datos:
+   las cuatro bases (paleta de cromatograma: A verde, C azul, G amarillo, T rojo),
+   los grupos de virus y la "fluorescencia" violeta de los mapas de calor.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Superficies */
+  --color-fondo: #0b0c14;
+  --color-superficie: #12141f;
+  --color-superficie-2: #1a1d2b;
+  --color-superficie-3: #242839;
+  --color-linea: #262a3c;
+  --color-linea-fuerte: #3a3f58;
+
+  /* Tinta */
+  --color-tinta: #eceef6;
+  --color-tinta-2: #a9aec4;
+  --color-tinta-3: #747a94;
+  --color-hueso: #f3efe4;
+
+  /* Bases (validadas para daltonismo: ΔE ≥ 12 entre todas las parejas) */
+  --color-base-a: #31e4ac;
+  --color-base-c: #4a8fe8;
+  --color-base-g: #e9c400;
+  --color-base-t: #e5433d;
+  --color-base-n: #8d93ab;
+
+  /* Estados de una comparación o de una casilla */
+  --color-bien: #31e4ac;
+  --color-mal: #e5433d;
+  --color-aviso: #e9c400;
+
+  /* Fluorescencia: rampa de un solo tono para magnitudes (de menos a más) */
+  --color-fluor-1: #1d1b3a;
+  --color-fluor-2: #2f2869;
+  --color-fluor-3: #4b3aa8;
+  --color-fluor-4: #7a63e8;
+  --color-fluor-5: #b3a4ff;
+  --color-fluor-6: #ece8ff;
+
+  /* Grupos de virus */
+  --color-grupo-a: #9085e9;
+  --color-grupo-b: #dd752c;
+  --color-grupo-smm: #2bb0cd;
+  --color-grupo-ab: #d95f9c;
+  --color-grupo-macacos: #83b33a;
+  --color-grupo-otros: #9aa0b8;
+
+  /* Tipografía: Archivo (con eje de ancho) para la interfaz, Martian Mono para secuencias y números */
+  --font-sans: 'Archivo Variable', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Martian Mono Variable', 'Cascadia Mono', Consolas, monospace;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+
+  --radius-casilla: 0.3125rem;
+
+  --ease-salida: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Dígito que cambia: entra rodando desde abajo */
+  --animate-rodar: rodar 0.22s var(--ease-salida);
+  /* Destello breve al tocar una casilla */
+  --animate-destello: destello 0.5s var(--ease-salida);
+
+  @keyframes rodar {
+    from {
+      transform: translateY(45%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes destello {
+    from {
+      transform: scale(1.18);
+      filter: brightness(1.6);
+    }
+    to {
+      transform: scale(1);
+      filter: brightness(1);
+    }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-fondo);
+  }
+
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: var(--color-fondo);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.45;
+    font-stretch: 96%;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+  }
+
+  #raiz {
+    height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-stretch: 112%;
+    font-weight: 640;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: default;
+  }
+
+  input,
+  textarea {
+    user-select: text;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-hueso);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-fluor-4) 55%, transparent);
+  }
+
+  /* Barras de desplazamiento discretas */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-linea);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-linea-fuerte);
+    background-clip: content-box;
+    border: 2px solid transparent;
+  }
+}
+
+@layer components {
+  /* Texto de secuencias, hashes e índices */
+  .mono {
+    font-family: var(--font-mono);
+    font-stretch: 87.5%;
+    font-feature-settings: 'zero' 0;
+  }
+
+  /* Números que se alinean en columnas */
+  .cifras {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Texto apretado para casillas pequeñas (usa el eje de ancho de Archivo) */
+  .estrecho {
+    font-stretch: 78%;
+  }
+
+  .arrastrable {
+    -webkit-app-region: drag;
+  }
+  .no-arrastrable {
+    -webkit-app-region: no-drag;
+  }
+
+  /* Base ambigua: trama diagonal para que no dependa solo del color */
+  .trama-ambigua {
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent 0 3px,
+      color-mix(in oklab, var(--color-fondo) 45%, transparent) 3px 5px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Casillas de la secuencia (por clase, para pintar miles sin estilos en línea) */
+@layer components {
+  .celda-base {
+    display: inline-grid;
+    place-items: center;
+    width: 1rem;
+    height: 1.25rem;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-stretch: 87.5%;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-fondo);
+  }
+  .celda-A {
+    background: var(--color-base-a);
+  }
+  .celda-C {
+    background: var(--color-base-c);
+  }
+  .celda-G {
+    background: var(--color-base-g);
+  }
+  .celda-T {
+    background: var(--color-base-t);
+  }
+  .celda-N {
+    background-color: var(--color-base-n);
+    background-image: repeating-linear-gradient(135deg, transparent 0 3px, rgb(11 12 20 / 0.4) 3px 5px);
+    outline: 2px solid var(--color-hueso);
+    outline-offset: 1px;
+    position: relative;
+    z-index: 1;
+  }
+}
